@@ -47,11 +47,6 @@ export const useSuperCombatStore = defineStore('superCombatStore', () => {
     if (fetchingGEPrices.value) {
       return '-'
     }
-    console.log(gePriceSuperCombat.value?.high ?? 0 * 0.99)
-    console.log(gePriceSuperStr.value?.high)
-    console.log(gePriceSuperAtt.value?.high)
-    console.log(gePriceSuperDef.value?.high)
-    console.log(gePriceTorstol.value?.high)
     return (
       Math.round(gePriceSuperCombat.value?.high ?? 0 * 0.99) -
       ((gePriceSuperStr.value?.high ?? 0) +
