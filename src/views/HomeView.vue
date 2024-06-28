@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import SuperCombatCalc from '@/components/SuperCombatCalc.vue'
+</script>
 
 <template>
-  <p>Test</p>
+  <SuperCombatCalc />
 </template>
