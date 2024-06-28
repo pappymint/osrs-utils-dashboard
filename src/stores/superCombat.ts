@@ -1,6 +1,21 @@
-import { ref, computed } from 'vue'
+import { ref, computed, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
+import {
+  SUPER_ATT_ID,
+  SUPER_DEF_ID,
+  SUPER_STR_ID,
+  TORSTOL_ID,
+  SUPER_COMBAT_ID
+} from '@/utils/itemIDs'
+import { getGEStatsForItem } from '@/api/gePrices'
+
+interface GEPriceStats {
+  high: number
+  highTime: number
+  low: number
+  lowTime: number
+}
 
 export const useSuperCombatStore = defineStore('superCombatStore', () => {
   const superStrCost = ref(useLocalStorage('superStrCost', 0))
@@ -8,6 +23,13 @@ export const useSuperCombatStore = defineStore('superCombatStore', () => {
   const superDefCost = ref(useLocalStorage('superDefCost', 0))
   const torstolCost = ref(useLocalStorage('torstolCost', 0))
   const superCombatSalePrice = ref(useLocalStorage('superCombatSalePrice', 0))
+
+  const fetchingGEPrices = ref(false)
+  const gePriceSuperStr: Ref<GEPriceStats | undefined> = ref()
+  const gePriceSuperAtt: Ref<GEPriceStats | undefined> = ref()
+  const gePriceSuperDef: Ref<GEPriceStats | undefined> = ref()
+  const gePriceTorstol: Ref<GEPriceStats | undefined> = ref()
+  const gePriceSuperCombat: Ref<GEPriceStats | undefined> = ref()
 
   const totalCostOfPot = computed(() => {
     return superStrCost.value + superAttCost.value + superDefCost.value + torstolCost.value
@@ -21,8 +43,40 @@ export const useSuperCombatStore = defineStore('superCombatStore', () => {
     return Math.round(salePriceMinusTax.value - totalCostOfPot.value)
   })
 
+  const gePriceProfit = computed(() => {
+    if (fetchingGEPrices.value) {
+      return '-'
+    }
+    console.log(gePriceSuperCombat.value?.high ?? 0 * 0.99)
+    console.log(gePriceSuperStr.value?.high)
+    console.log(gePriceSuperAtt.value?.high)
+    console.log(gePriceSuperDef.value?.high)
+    console.log(gePriceTorstol.value?.high)
+    return (
+      Math.round(gePriceSuperCombat.value?.high ?? 0 * 0.99) -
+      ((gePriceSuperStr.value?.high ?? 0) +
+        (gePriceSuperAtt.value?.high ?? 0) +
+        (gePriceSuperDef.value?.high ?? 0) +
+        (gePriceTorstol.value?.high ?? 0))
+    )
+  })
+
   const resetAllInputs = () => {
     superStrCost.value = 0
+    superAttCost.value = 0
+    superDefCost.value = 0
+    torstolCost.value = 0
+    superCombatSalePrice.value = 0
+  }
+
+  const fetchGePrices = async () => {
+    fetchingGEPrices.value = true
+    gePriceSuperAtt.value = await getGEStatsForItem(SUPER_ATT_ID)
+    gePriceSuperStr.value = await getGEStatsForItem(SUPER_STR_ID)
+    gePriceSuperDef.value = await getGEStatsForItem(SUPER_DEF_ID)
+    gePriceTorstol.value = await getGEStatsForItem(TORSTOL_ID)
+    gePriceSuperCombat.value = await getGEStatsForItem(SUPER_COMBAT_ID)
+    fetchingGEPrices.value = false
   }
 
   return {
@@ -31,9 +85,19 @@ export const useSuperCombatStore = defineStore('superCombatStore', () => {
     superDefCost,
     torstolCost,
     superCombatSalePrice,
+    fetchingGEPrices,
+    gePriceSuperStr,
+    gePriceSuperAtt,
+    gePriceSuperDef,
+    gePriceTorstol,
+    gePriceSuperCombat,
+
     totalCostOfPot,
     salePriceMinusTax,
     totalProfit,
-    resetAllInputs
+    gePriceProfit,
+
+    resetAllInputs,
+    fetchGePrices
   }
 })
