@@ -8,14 +8,8 @@ import {
   TORSTOL_ID,
   SUPER_COMBAT_ID
 } from '@/utils/itemIDs'
-import { getGEStatsForItem } from '@/api/gePrices'
-
-interface GEPriceStats {
-  high: number
-  highTime: number
-  low: number
-  lowTime: number
-}
+import { getGEStatsForItem } from '@/api/api'
+import type { GEPriceStats } from '@/types/types'
 
 export const useSuperCombatStore = defineStore('superCombatStore', () => {
   const superStrCost = ref(useLocalStorage('superStrCost', 0))

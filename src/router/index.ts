@@ -15,7 +15,17 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('@/components/SuperCombatCalc.vue')
+      component: () => import('@/views/SuperCombatCalc.vue')
+    },
+    {
+      path: '/calc/money-maker/rune-items-high-alch',
+      name: 'runeAlchCalc',
+      component: () => import('@/views/RuneAlchCalc.vue')
+    },
+    {
+      path: '/item-lookup',
+      name: 'itemLookup',
+      component: () => import('@/views/ItemLookup.vue')
     }
   ]
 })

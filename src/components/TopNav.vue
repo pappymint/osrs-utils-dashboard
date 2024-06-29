@@ -31,11 +31,24 @@ const navItems = ref([
               command: () => {
                 router.push({ name: 'superCombatCalc' })
               }
+            },
+            {
+              label: 'High alch rune items',
+              command: () => {
+                router.push({ name: 'runeAlchCalc' })
+              }
             }
           ]
         }
       ]
     ]
+  },
+  {
+    label: 'Item Lookup',
+    icon: 'pi pi-search',
+    command: () => {
+      router.push({ name: 'itemLookup' })
+    }
   }
 ])
 </script>

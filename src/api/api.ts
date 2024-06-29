@@ -1,3 +1,4 @@
+import type { OsrsBoxItem } from '@/types/types'
 import axios from 'axios'
 
 export const getGEStatsForItem = async (itemId: number) => {
@@ -16,4 +17,16 @@ export const getGEStatsForItem = async (itemId: number) => {
     })
 
   return itemData
+}
+
+export const osrsBoxItemsAndIds = async () => {
+  let data: OsrsBoxItem[] = []
+  await axios
+    .get(
+      'https://raw.githubusercontent.com/0xNeffarion/osrsreboxed-db/master/docs/items-complete.json'
+    )
+    .then((response) => {
+      data = response.data
+    })
+  return data
 }

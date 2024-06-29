@@ -135,7 +135,7 @@
 import { onBeforeMount } from 'vue'
 import { useSuperCombatStore } from '@/stores/superCombat'
 import Button from 'primevue/button'
-import GPNumberInput from './GPNumberInput.vue'
+import GPNumberInput from '@/components/GPNumberInput.vue'
 import Fieldset from 'primevue/fieldset'
 
 const store = useSuperCombatStore()

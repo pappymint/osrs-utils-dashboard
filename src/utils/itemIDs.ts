@@ -4,3 +4,6 @@ export const SUPER_DEF_ID = 2442
 export const TORSTOL_ID = 269
 export const GRIMY_TORSTOL_ID = 219
 export const SUPER_COMBAT_ID = 12695
+
+export const RUNITE_BAR = 2363
+export const NATURE_RUNE = 561
